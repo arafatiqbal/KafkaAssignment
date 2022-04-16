@@ -26,6 +26,7 @@ from confluent_kafka import Consumer
 import json
 import ccloud_lib
 
+
 if __name__ == '__main__':
 
     # Read arguments and configurations and initialize
@@ -47,7 +48,7 @@ if __name__ == '__main__':
 
     # Process messages
     total_count = 0
-    c2 = 0
+    count2 = 0
     try:
         while True:
             msg = consumer.poll(1.0)
@@ -56,23 +57,24 @@ if __name__ == '__main__':
                 # Initial message consumption may take up to
                 # `session.timeout.ms` for the consumer group to
                 # rebalance and start consuming
-                print("Waiting for message or event/error in poll()")
-                continue
+                print("All Deleted")
             elif msg.error():
                 print('error: {}'.format(msg.error()))
             else:
                 # Check for Kafka message
-                record_key = msg.key()
-                #Conversion
-                int_val = int.from_bytes(record_key, "big")
-                if(int_val == 49):
-                    record_value = msg.value()
-                    data = json.loads(record_value)
-                    #count = data['count']
-                    total_count += c2
-                    print("Consumed record with key {} and value {}, \
-                          and updated total count to {}"
-                          .format(record_key, record_value, total_count))
+                #msg.key() = None
+                #msg.value() = None
+                #json.loads(record_value) = None
+
+                record_key = None
+                record_value = None
+                data = None
+                
+                #count = data['count']
+                total_count += count2
+                print("Deleted record with key {} and value {}, \
+                      and updated total count to {}"
+                      .format(record_key, record_value, total_count))
     except KeyboardInterrupt:
         pass
     finally:
